@@ -1,0 +1,33 @@
+.board {
+  aspect-ratio: 1;
+  /* overflow: hidden; */
+  display: grid;
+  grid-template-columns: repeat(8, 12.5%);
+  grid-template-rows: repeat(8, 12.5%);
+  gap: 0px;
+  /* background-size: contain !important; */
+  cursor: pointer;
+  /* height: 100%;
+  width: 100%; */
+  position: relative;
+}
+
+.chessSquare {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.chessSquare span {
+  font-size: min(1cqw, 8pt) !important;
+  line-height: min(1cqw, 8pt) !important;
+}
+
+/* .chessSquare img {
+  position: relative !important;
+  z-index: 0;
+} */
