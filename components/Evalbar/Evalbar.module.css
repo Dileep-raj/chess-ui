@@ -1,0 +1,96 @@
+.evalbar {
+  display: flex;
+  overflow: hidden;
+  position: relative;
+}
+
+.evalbarValue {
+  display: flex;
+  min-width: fit-content;
+  min-height: fit-content;
+  align-items: center;
+  flex-direction: column;
+}
+
+.evalbarFill {
+  transition: ease-out 0.5s;
+  margin: 0px;
+  padding: 0px;
+}
+
+
+
+/* Vertical orientation */
+
+.evalbar[data-orientation="vertical"] {
+  min-height: 20rem !important;
+  min-width: 2.5rem !important;
+  max-width: fit-content !important;
+  flex-direction: column !important;
+}
+
+.evalbar[data-orientation="vertical"] .evalbarValue {
+  flex-direction: column;
+}
+
+.evalbar[data-orientation="vertical"] .evalbarFill {
+  width: 100%;
+  height: auto;
+}
+
+
+
+/* Horizontal orientation */
+
+.evalbar[data-orientation="horizontal"] {
+  min-width: 20rem !important;
+  height: 2rem !important;
+  min-height: 2rem !important;
+  max-width: fit-content !important;
+  flex-direction: row !important;
+}
+
+.evalbar[data-orientation="horizontal"] .evalbarValue {
+  flex-direction: row;
+}
+
+.evalbar[data-orientation="horizontal"] .evalbarFill {
+  height: 100%;
+  width: auto;
+}
+
+
+
+/* Auto orientation */
+
+@media only screen and (orientation: portrait) {
+  /* Horizontal orientation for portrait screen */
+  .evalbar {
+    min-width: 20rem;
+    height: 2rem;
+    max-width: fit-content;
+    flex-direction: row;
+  }
+  .evalbarValue {
+      flex-direction: row;
+  }
+  .evalbarFill {
+    height: 100%;
+  }
+}
+
+@media only screen and (orientation: landscape) {
+  /* Vertical orientation for landscape screen */
+  .evalbar {
+    min-height: 20rem;
+    min-width: 2.5rem;
+    max-width: fit-content;
+    flex-direction: column;
+  }
+  .evalbarValue {
+    flex-direction: column;
+  }
+  .evalbarFill {
+    width: 100%;
+  }
+}
