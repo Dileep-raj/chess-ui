@@ -2,6 +2,9 @@
   display: flex;
   overflow: hidden;
   position: relative;
+  min-height: 20rem;
+  width: 2.5rem;
+  flex-direction: column;
 }
 
 .evalbarValue {
@@ -16,9 +19,8 @@
   transition: ease-out 0.5s;
   margin: 0px;
   padding: 0px;
+  width: 100%;
 }
-
-
 
 /* Vertical orientation */
 
@@ -38,15 +40,13 @@
   height: auto;
 }
 
-
-
 /* Horizontal orientation */
 
 .evalbar[data-orientation="horizontal"] {
   min-width: 20rem !important;
+  width: auto !important;
   height: 2rem !important;
   min-height: 2rem !important;
-  max-width: fit-content !important;
   flex-direction: row !important;
 }
 
@@ -59,38 +59,22 @@
   width: auto;
 }
 
-
-
 /* Auto orientation */
 
 @media only screen and (orientation: portrait) {
   /* Horizontal orientation for portrait screen */
   .evalbar {
     min-width: 20rem;
+    width: auto;
     height: 2rem;
-    max-width: fit-content;
+    min-height: 2rem;
     flex-direction: row;
   }
   .evalbarValue {
-      flex-direction: row;
+    flex-direction: row;
   }
   .evalbarFill {
     height: 100%;
-  }
-}
-
-@media only screen and (orientation: landscape) {
-  /* Vertical orientation for landscape screen */
-  .evalbar {
-    min-height: 20rem;
-    min-width: 2.5rem;
-    max-width: fit-content;
-    flex-direction: column;
-  }
-  .evalbarValue {
-    flex-direction: column;
-  }
-  .evalbarFill {
-    width: 100%;
+    width: auto;
   }
 }

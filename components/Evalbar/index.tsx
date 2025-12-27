@@ -57,7 +57,7 @@ const EvalBar = ({ evaluation, orientation }: Props) => {
 
   return (
     <>
-      <div data-orientation={orientation ?? EvalBarOrientation.auto} className={`${styles.evalbar} rounded-sm`}>
+      <div data-orientation={orientation ?? EvalBarOrientation.auto} className={`${styles.evalbar} rounded-sm md:rounded-md`}>
         <div className={textClassName}>{e}</div>
         <div style={{ flexGrow: black }} className={blackClassName} />
         <div style={{ flexGrow: white }} className={whiteClassName} />

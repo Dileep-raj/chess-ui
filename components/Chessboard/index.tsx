@@ -12,7 +12,7 @@ import previousSquare from "@/assets/svg/previous_square.svg"
 
 
 interface ChessBoardProps {
-  data?: string | BoardData;
+  position?: string | BoardData;
   flipBoard?: boolean;
   evalBar?: boolean;
   boardTheme?: BoardTheme;
@@ -32,10 +32,10 @@ const themes: { [key in BoardTheme]: { [key in "light" | "dark"]: string } } = {
 let dragSquare: Square | null | undefined = undefined
 const ChessBoard = ({
   makeMove,
-  data = "8/8/8/8/8/8/8/8 w - - 0 1",
+  position = "8/8/8/8/8/8/8/8 w - - 0 1",
   flipBoard = false,
   boardTheme = BoardTheme.default,
-  roundedCorner = false,
+  roundedCorner = true,
 }: ChessBoardProps) => {
   let boardData: BoardData = {
     fen: "",
@@ -52,7 +52,7 @@ const ChessBoard = ({
   };
 
   try {
-    if (typeof data == "string") boardData = parseFEN(data!)
+    if (typeof position == "string") boardData = parseFEN(position!)
   } catch (error) {
     console.log(error)
   }
@@ -60,7 +60,7 @@ const ChessBoard = ({
 
   const [highlightedSquares, setHighlightedSquares] = useState<Set<Square> | null | undefined>(null);
   const [selectedSquare, setSelectedSquare] = useState<Square | null | undefined>(null);
-  const [board, setBoard] = useState<BoardData>(typeof data == "string" ? boardData : data!)
+  const [board, setBoard] = useState<BoardData>(typeof position == "string" ? boardData : position!)
 
   const squareRefs = useRef<HTMLDivElement[]>([]);
   const light = encodeURIComponent(themes[boardTheme].light), dark = encodeURIComponent(themes[boardTheme].dark);
@@ -134,7 +134,6 @@ const ChessBoard = ({
         const fromPiece: Piece = board.pieces[selectedSquare] as Piece
         if (fromPiece.color == toPiece?.color) setSelectedSquare(currentSquare) // Change selection if same color
         else movePiece(selectedSquare, currentSquare) // Move piece if opposite color
-        console.log(fromPiece, toPiece);
       }
     }
     else if (board.pieces[currentSquare]?.color == board.turn) setSelectedSquare(currentSquare) // Select the square if there is no previous selection
@@ -142,7 +141,6 @@ const ChessBoard = ({
 
   const handleRightClickSquare = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.preventDefault();
-    console.log(squareRefs.current.indexOf(e.currentTarget), Squares[squareRefs.current.indexOf(e.currentTarget)]);
   }
 
   const handleMouseOver = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
@@ -189,7 +187,7 @@ const ChessBoard = ({
   };
 
   return (
-    <div className="flex m-1 justify-center w-full max-w-3xl mx-auto aspect-square">
+    <div className="flex justify-center w-full max-w-3xl aspect-square">
       <div
         // data-board-theme={boardTheme}
         style={{ backgroundImage: flipBoard ? board_svg_reverse : board_svg_default }}
