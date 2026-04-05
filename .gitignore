@@ -42,3 +42,7 @@ next-env.d.ts
 
 
 temp
+
+# VSCode
+.vscode/*
+.history/

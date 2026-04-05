@@ -51,9 +51,9 @@ const EvalBar = ({ evaluation, orientation }: Props) => {
     console.error(error);
   }
 
-  const blackClassName = `${styles.evalbarFill} bg-gray-900`
-  const whiteClassName = `${styles.evalbarFill} bg-gray-200`
-  const textClassName = `${styles.evalbarValue} absolute w-full h-full font-semibold text-xs p-0.5 ${black > white ? "justify-start text-gray-200" : "justify-end text-gray-900"}`
+  const blackClassName = `${styles.evalbarFill} bg-evalbar-dark`
+  const whiteClassName = `${styles.evalbarFill} bg-evalbar-light`
+  const textClassName = `${styles.evalbarValue} absolute w-full h-full font-semibold text-xs p-0.5 ${black > white ? "justify-start text-evalbar-light" : "justify-end text-evalbar-dark"}`
 
   return (
     <>

@@ -6,7 +6,7 @@ export const FENRegex =
 
 export const unicode_wk = "♔";
 export const unicode_wq = "♕";
-export const unicode_rw = "♖";
+export const unicode_wr = "♖";
 export const unicode_wb = "♗";
 export const unicode_wn = "♘";
 export const unicode_wp = "♙";

@@ -1,4 +1,4 @@
-import { BoardData, Piece, PieceColor, PieceRank, Square, Squares } from "@/types";
+import { BoardData, Piece, PieceColor, PieceRank, Square, SquareIndex } from "@/types";
 import * as misc from "../misc";
 
 const FENRegex = /^([KQRNBPkqbnrp1-8]+\/){7}[KQRNBPkqbnrp1-8]+ [wb] (-|K?Q?k?q?) (-|[a-h][1-8]) \d+ \d+$/;
@@ -7,6 +7,7 @@ const defaultFEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 export const validateFEN = (FEN: string) => {
   if (!FENRegex.test(FEN)) return `Invalid FEN!\n${FEN}`;
   const fields = FEN.split(" ");
+  if (fields[0] == "8/8/8/8/8/8/8/8") return;
   if ((fields[0].match(/K/) || []).length != 1) return `Invalid FEN!\n${FEN}`;
   if ((fields[0].match(/k/) || []).length != 1) return `Invalid FEN!\n${FEN}`;
   const ranks = fields[0].split("/")
@@ -46,7 +47,7 @@ export const parseFEN = (FEN: string) => {
   const board = fields[0];
   const playerToPlay = fields[1];
   const castleAvailability = fields[2];
-  const enPassantSquare = fields[3] === "-" ? null : Square[fields[3] as keyof typeof Square];
+  const enPassantSquare = fields[3] === "-" ? null : fields[3] as Square;
 
   let halfMoveClock = 0;
   let fullMoveClock = 1;
@@ -103,8 +104,8 @@ export const parseFEN = (FEN: string) => {
         default:
           throw new Error(`Invalid FEN! Unknown character '${ch}'`);
       }
-      const square: Square = rowNo * 8 + col;
-      pieces[Squares[square]] = new Piece(color, rank, rowNo, col);
+      const square: Square = SquareIndex[rowNo * 8 + col] as Square;
+      pieces[square] = new Piece(color, rank, rowNo, col);
 
       if (rank == PieceRank.King)
         if (color == PieceColor.White) whiteKing = square;
@@ -136,8 +137,8 @@ export const getDefaultPositionBoardData = () => {
   return {
     fen: defaultFEN,
     enPassant: null,
-    whiteKing: Square.e1,
-    blackKing: Square.e8,
+    whiteKing: "e1",
+    blackKing: "e8",
     halfMove: 0,
     fullMove: 1,
     turn: PieceColor.White,
@@ -183,16 +184,16 @@ export const getDefaultPositionBoardData = () => {
       h8: new Piece(PieceColor.Black, PieceRank.Rook, 7, 7),
     },
     legalMoves: {
-      b1: new Set([Square.a3, Square.c3]),
-      g1: new Set([Square.f3, Square.h3]),
-      a2: new Set([Square.a3, Square.a4]),
-      b2: new Set([Square.b3, Square.b4]),
-      c2: new Set([Square.c3, Square.c4]),
-      d2: new Set([Square.d3, Square.d4]),
-      e2: new Set([Square.e3, Square.e4]),
-      f2: new Set([Square.f3, Square.f4]),
-      g2: new Set([Square.g3, Square.g4]),
-      h2: new Set([Square.h3, Square.h4]),
+      b1: new Set(["a3", "c3"]),
+      g1: new Set(["f3", "h3"]),
+      a2: new Set(["a3", "a4"]),
+      b2: new Set(["b3", "b4"]),
+      c2: new Set(["c3", "c4"]),
+      d2: new Set(["d3", "d4"]),
+      e2: new Set(["e3", "e4"]),
+      f2: new Set(["f3", "f4"]),
+      g2: new Set(["g3", "g4"]),
+      h2: new Set(["h3", "h4"]),
     },
   } as BoardData;
 };
@@ -202,8 +203,8 @@ export const boardDataToFEN = (data: BoardData) => {
   for (let row = 0; row < 8; row++) {
     let rank = "", c = 0;
     for (let col = 0; col < 8; col++) {
-      const square: Square = (row) * 8 + col;
-      const piece = data.pieces[Squares[square]]
+      const square: Square = SquareIndex[(row) * 8 + col] as Square;
+      const piece = data.pieces[square]
       if (piece) {
         if (c != 0) {
           rank += c.toString();
