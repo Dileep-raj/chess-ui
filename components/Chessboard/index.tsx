@@ -214,22 +214,19 @@ const ChessBoard = ({
         if (selectedSquare) {
           const fromPiece: Piece = board.pieces[selectedSquare] as Piece
           if (selectedSquare == square) clearSelection() // If same square selected again remove selection
-          else {
-            if (fromPiece.color == toPiece?.color) setSelectedSquare(square) // Change selection if same color
-            else if (board.legalMoves[selectedSquare]?.has(square)) movePiece(selectedSquare, square) // Move piece if opposite color
-            else clearSelection()
-          }
+          else if (fromPiece.color == toPiece?.color) setSelectedSquare(square) // Change selection if same color
+          else if (board.legalMoves[selectedSquare]?.has(square)) movePiece(selectedSquare, square) // Move piece if opposite color & legal move
+          else clearSelection() // Clear selection if not a legal move
         }
         else if (board.pieces[square]?.color == board.turn) setSelectedSquare(square) // Select the square if there is no previous selection
-        // redraw()
       }
-      else movePiece(dragData.dragSquare, square)
+      else if (board.legalMoves[dragData.dragSquare]?.has(square)) movePiece(dragData.dragSquare, square) // Drag and drop piece if its a legal move
+      else clearSelection() // Clear selection if not a legal move
 
       stopPieceDrag()
     }
     else if (selectedSquare) { // When clicking on an empty square as drag data will be null
-      if (board.legalMoves[selectedSquare]?.has(square)) movePiece(selectedSquare, square) // Move piece if opposite color
-      else if (board.pieces[square]?.color == board.turn) setSelectedSquare(square) // Select the square if there is no previous selection
+      if (board.legalMoves[selectedSquare]?.has(square)) movePiece(selectedSquare, square) // Move piece if its a legal move
       else clearSelection()
     }
   }
